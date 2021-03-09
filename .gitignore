@@ -1,0 +1,12 @@
+*/settings/*
+*.project
+*.classpath
+*.springBeans
+*target/*
+*.project
+*.settings
+.gradle
+*test-output
+*build/
+*bin/
+.idea/
