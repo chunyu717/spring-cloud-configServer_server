@@ -1,12 +1,9 @@
-FROM maven:3.6-jdk-11-slim as BUILD
-COPY . /src
-WORKDIR /src
-RUN mvn install -DskipTests
+FROM openjdk:8-jre-slim
 
-FROM openjdk:11.0.1-jre-slim-stretch
 EXPOSE 8888
-WORKDIR /app
-ARG JAR=hello-0.0.1-SNAPSHOT.jar
 
-COPY --from=BUILD /src/target/$JAR /app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+RUN mkdir /app
+
+COPY build/libs/*.jar /app/spring-boot-application.jar
+
+ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","/app/spring-boot-application.jar"]
